@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE GREEN FILES KEY</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, #163d27, transparent 60%),
+                #06110b;
+            color: #f0fff2;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            padding: 55px 30px;
+            text-align: center;
+            background: rgba(12, 31, 19, 0.92);
+            border: 1px solid #285a39;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(54, 160, 83, 0.12);
+        }
+
+        h1 {
+            color: #a3f5b0;
+            font-size: clamp(30px, 6vw, 60px);
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+            text-shadow: 0 0 25px rgba(163, 245, 176, 0.2);
+        }
+
+        .subtitle {
+            color: #9dbba5;
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .inputs input {
+            width: 60px;
+            height: 70px;
+            border: 1px solid #376b46;
+            border-radius: 10px;
+            background: #09180e;
+            color: #a3f5b0;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .inputs input:focus {
+            border-color: #a3f5b0;
+            box-shadow: 0 0 15px rgba(163, 245, 176, 0.2);
+        }
+
+        button {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            background: #a3f5b0;
+            color: #07150b;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #c5ffce;
+            transform: translateY(-2px);
+        }
+
+        .timer-section {
+            margin-top: 45px;
+            padding-top: 30px;
+            border-top: 1px solid #23432c;
+        }
+
+        .timer-label {
+            color: #9dbba5;
+            font-size: 12px;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        #timer {
+            color: #a3f5b0;
+            font-size: clamp(40px, 8vw, 65px);
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+        }
+
+        #startButton {
+            background: transparent;
+            border: 1px solid #6eb87e;
+            color: #a3f5b0;
+        }
+
+        #startButton:hover {
+            background: #163d27;
+        }
+
+        .congratulations {
+            display: none;
+        }
+
+        .congratulations h2 {
+            color: #a3f5b0;
+            font-size: clamp(32px, 6vw, 60px);
+            margin-bottom: 20px;
+        }
+
+        .congratulations p {
+            color: #c3ddc9;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                padding: 40px 12px;
+            }
+
+            .inputs {
+                gap: 5px;
+            }
+
+            .inputs input {
+                width: min(10.5vw, 48px);
+                height: 55px;
+                font-size: 23px;
+                border-radius: 7px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div id="game">
+
+            <h1>THE GREEN FILES KEY</h1>
+
+            <p class="subtitle">
+                Enter the 8-letter access code
+            </p>
+
+            <form id="keyForm">
+
+                <div class="inputs">
+                    <input type="text" maxlength="1" aria-label="Letter 1" autofocus>
+                    <input type="text" maxlength="1" aria-label="Letter 2">
+                    <input type="text" maxlength="1" aria-label="Letter 3">
+                    <input type="text" maxlength="1" aria-label="Letter 4">
+                    <input type="text" maxlength="1" aria-label="Letter 5">
+                    <input type="text" maxlength="1" aria-label="Letter 6">
+                    <input type="text" maxlength="1" aria-label="Letter 7">
+                    <input type="text" maxlength="1" aria-label="Letter 8">
+                </div>
+
+                <button type="submit">SUBMIT KEY</button>
+
+            </form>
+
+            <div class="timer-section">
+
+                <p class="timer-label">TIME REMAINING</p>
+
+                <div id="timer">02:00:00</div>
+
+                <button type="button" id="startButton">
+                    START TIMER
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="success" class="congratulations">
+            <h2>CONGRATULATIONS!</h2>
+            <p>
+                You unlocked THE GREEN FILES.<br>
+                The mission is complete.
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        // ========================================
+        // CONFIGURATION
+        // ========================================
+
+        const CORRECT_KEY = "ECOHOUSE";
+        const DURATION = 2 * 60 * 60 * 1000;
+
+        // ========================================
+        // ELEMENTS
+        // ========================================
+
+        const inputs = Array.from(
+            document.querySelectorAll(".inputs input")
+        );
+
+        const form = document.getElementById("keyForm");
+        const game = document.getElementById("game");
+        const success = document.getElementById("success");
+        const timerDisplay = document.getElementById("timer");
+        const startButton = document.getElementById("startButton");
+
+        let deadline = null;
+        let timerInterval = null;
+        let completed = false;
+
+        // ========================================
+        // LETTER INPUT BEHAVIOR
+        // ========================================
+
+        inputs.forEach((input, index) => {
+
+            input.addEventListener("input", () => {
+
+                input.value = input.value
+                    .replace(/[^a-z]/gi, "")
+                    .toUpperCase()
+                    .slice(0, 1);
+
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+
+            });
+
+            input.addEventListener("keydown", (event) => {
+
+                if (
+                    event.key === "Backspace" &&
+                    !input.value &&
+                    index > 0
+                ) {
+                    inputs[index - 1].focus();
+                }
+
+                if (
+                    event.key === "ArrowLeft" &&
+                    index > 0
+                ) {
+                    inputs[index - 1].focus();
+                }
+
+                if (
+                    event.key === "ArrowRight" &&
+                    index < inputs.length - 1
+                ) {
+                    inputs[index + 1].focus();
+                }
+
+            });
+
+        });
+
+        // Allow pasting the entire key into an input.
+        inputs.forEach((input, index) => {
+
+            input.addEventListener("paste", (event) => {
+
+                const text = event.clipboardData
+                    .getData("text")
+                    .replace(/[^a-z]/gi, "")
+                    .toUpperCase()
+                    .slice(0, 8);
+
+                if (text.length > 1) {
+
+                    event.preventDefault();
+
+                    text.split("").forEach((letter, i) => {
+                        if (inputs[i]) {
+                            inputs[i].value = letter;
+                        }
+                    });
+
+                    inputs[Math.min(text.length, 7)].focus();
+
+                }
+
+            });
+
+        });
+
+        // ========================================
+        // COUNTDOWN TIMER
+        // ========================================
+
+        function updateTimer() {
+
+            if (deadline === null || completed) {
+                return;
+            }
+
+            const remaining = Math.max(
+                0,
+                deadline - Date.now()
+            );
+
+            const hours = Math.floor(
+                remaining / (1000 * 60 * 60)
+            );
+
+            const minutes = Math.floor(
+                (remaining % (1000 * 60 * 60)) /
+                (1000 * 60)
+            );
+
+            const seconds = Math.floor(
+                (remaining % (1000 * 60)) / 1000
+            );
+
+            timerDisplay.textContent =
+                String(hours).padStart(2, "0") + ":" +
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+
+            if (remaining <= 0) {
+
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                form.querySelector("button").disabled = true;
+
+                startButton.disabled = true;
+                startButton.textContent = "TIME EXPIRED";
+
+                startButton.style.opacity = "0.5";
+                form.querySelector("button").style.opacity = "0.5";
+
+            }
+
+        }
+
+        startButton.addEventListener("click", () => {
+
+            // The timer can only be started once.
+            if (deadline !== null || completed) {
+                return;
+            }
+
+            deadline = Date.now() + DURATION;
+
+            startButton.style.display = "none";
+
+            updateTimer();
+
+            timerInterval = setInterval(updateTimer, 250);
+
+        });
+
+        // ========================================
+        // SUBMIT THE KEY
+        // ========================================
+
+        form.addEventListener("submit", (event) => {
+
+            event.preventDefault();
+
+            if (completed) {
+                return;
+            }
+
+            const enteredKey = inputs
+                .map(input => input.value)
+                .join("");
+
+            // Incorrect key: intentionally do nothing.
+            if (enteredKey !== CORRECT_KEY) {
+                return;
+            }
+
+            // Correct key: finish the mission.
+            completed = true;
+
+            if (timerInterval !== null) {
+                clearInterval(timerInterval);
+            }
+
+            game.style.display = "none";
+            success.style.display = "block";
+
+        });
+
+    </script>
+
+</body>
+</html>
